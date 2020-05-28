@@ -1,52 +1,74 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from '../auth.guard';
 
 const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
+    canActivate: [AuthGuard],
     children: [
       {
-        path: 'tab1',
+        path: 'menu',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+              import('../menu/menu.module').then(m => m.MenuPageModule)
           }
         ]
       },
       {
-        path: 'tab2',
+        path: 'plats',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+              import('../plats/plats.module').then(m => m.Tab2PageModule)
+          },
+          {
+            path: 'ajouter',
+            loadChildren: () =>
+              import('../plats/ajouter/ajouter.module').then(m => m.AjouterPageModule)
+          },
+          {
+            path: 'modifier/:id',
+            loadChildren: () =>
+              import('../plats/modifier/modifier.module').then(m => m.ModifierPageModule)
           }
         ]
       },
       {
-        path: 'tab3',
+        path: 'compte',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+              import('../compte/compte.module').then(m => m.ComptePageModule)
+          },
+          {
+            path: 'login',
+            loadChildren: () =>
+              import('../compte/login/login.module').then(m => m.LoginPageModule)
+          },
+          {
+            path: 'register',
+            loadChildren: () =>
+              import('../compte/register/register.module').then(m => m.RegisterPageModule)
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/menu',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/menu',
     pathMatch: 'full'
   }
 ];
